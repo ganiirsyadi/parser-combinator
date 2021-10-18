@@ -97,3 +97,11 @@ class Applicative f => Alternative f where
   empty :: f a
   (<|>) :: f a -> f a -> f a
 ```
+Terdapat dua fungsi minimum yang perlu diimplementasi untuk menjadi Alternative, yaitu `empty` dan `(<|>)`. Fungsi `empty` menjadi identitas dari fungsi `<|>` sedangkan fungsi `<|>` adalah sebuah fungsi biner yang bersifat asosiatif, Contoh kasusnya pada Parser Combinator ini adalah:
+```Haskell
+instance Alternative Parser where
+  empty = Parser (\_ -> Nothing)
+  (Parser p1) <|> (Parser p2) =
+    Parser $ \input -> p1 input <|> p2 input
+```
+Identitas (empty) dari Parser didefinisikan sebagai sebuah Parser dengan fungsi yang me-return nothing. Efeknya adalah ketika terdapat operasi `Parser a <|> Parser b` dan `Parser a` me-return Nothing, sedangkan `Parser b` mereturn x, maka hasilnya adalah tetap x.

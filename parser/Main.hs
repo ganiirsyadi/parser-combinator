@@ -38,7 +38,7 @@ instance Applicative Parser where
 
 
 instance Alternative Parser where
-  empty = Parser $ const Nothing
+  empty = Parser (\_ -> Nothing)
   (Parser p1) <|> (Parser p2) =
     Parser $ \input -> p1 input <|> p2 input
 
