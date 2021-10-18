@@ -1,4 +1,5 @@
 ## Refleksi Parser Combinator
+ Gani Ilham irsyadi (1906350616)
 
 Parser Combinator merupakan sebuah fungsi yang dapat mengonversi sebuah String menjadi data type yang dapat digunakan secara programatis, pada konteks ini adalah bahasa Haskell.
 Materi **Parser Combinator** menggabungkan semua konsep pemrograman fungsional yang sudah dipelajari selama ini. Meskipun demikian, terdapat pula konsep-konsep baru yang saya pelajari, utamanya ketika mempelajari sendiri contoh Parser Combinator melalui Tugas UTS. Beberapa konsep tersebut adalah:

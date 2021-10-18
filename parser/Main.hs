@@ -56,11 +56,12 @@ charParser x = Parser f
       | otherwise = Nothing
     f [] = Nothing
 
+
 -- Karena sequenceA hanya dapat digunakan pada tipe
 -- dengan Traversable dan Applicative, maka perlu
 -- membuktikan Parser memenuhi keduanya
 stringParser :: String -> Parser String
-stringParser = traverse charParser
+stringParser = sequenceA . map charParser
 
 
 -- check if a Parser return something or not
@@ -132,8 +133,22 @@ jsonObject = JsonObject <$> (charParser '{' *> ws *> pairs <* ws <* charParser '
 
 
 jsonValue :: Parser JsonValue
-jsonValue = jsonNull <|> jsonBool <|> jsonNumber <|> jsonString <|> jsonObject
+jsonValue = jsonNull <|> jsonBool <|> jsonNumber <|> jsonString <|> jsonArray <|> jsonObject
 
 
-main :: IO ()
-main = undefined
+parseFile :: FilePath -> Parser a -> IO (Maybe a)
+parseFile fileName parser = do
+  input <- readFile fileName
+  return (snd <$> runParser parser input)
+
+
+showValue :: Show a => Maybe a -> IO ()
+showValue (Just x) = print x
+showValue n        = print n
+
+
+main :: IO (Maybe JsonValue)
+main = do
+  putStr "Masukkan nama file : "
+  input <- getLine
+  parseFile input jsonValue
